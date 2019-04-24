@@ -4,14 +4,14 @@ Group 8
 '''
 import random as r
 import numpy as np
-from konlpy.corpus import kolaw #imports the textfile pointer
+from konlpy.corpus import kolaw # imports the textfile pointer
 from konlpy import utils
 
 BAD_CHARS = [',', '<', '>', '!', '?', '-','<', ':',';','*']
 
 WINDOW_SIZE = 3
 
-#Help function for pre_process()
+# Help function for pre_process()
 def has_digit(word):
     for char in word:
         if char.isdigit():
@@ -118,9 +118,7 @@ def main():
     dict_size = len(int2word)
     x_train, y_train = create_training_vectors(batch, dict_size)
 
-
-
-    # print(sentences)
+    print(sentences)
     # print(len(int2word))
     # print(sentences)
     # print(batch)
