@@ -81,7 +81,7 @@ def generate_batch(window_size, sentences, word2int):
 
 
 def to_one_hot(data_point_index, vocab_size):
-    temp = np.zeros(vocab_size)
+    temp = np.zeros((vocab_size, 1))
     temp[data_point_index] = 1
     return temp
 
@@ -93,8 +93,8 @@ def create_training_vectors(batch, dict_size):
     x_train = [] # input word
     y_train = [] # output word
     for item in batch:
-        x_train.append(to_one_hot(item[0], dict_size))
-        y_train.append(to_one_hot(item[1], dict_size))
+        x_train.append(to_one_hot(item[0], dict_size).transpose())
+        y_train.append(to_one_hot(item[1], dict_size).transpose())
         # print(x_train)
         # print(y_train)
         # convert them to numpy arrays
@@ -104,17 +104,30 @@ def create_training_vectors(batch, dict_size):
     assert not np.any(np.isnan(y_train))
     return x_train.transpose(), y_train.transpose()
 
+def y_hat(c, U, V):
+	vocab_size = len(U)
+	y_hat = np.zeros((vocab_size, 1))
+	S = 0
+	for w in range(vocab_size):
+		S += exp(U[:, w].transpose().dot(V[:, c]))
+	for o in range(vocab_size):
+		y_hat[o] = exp(U[:, o].transpose().dot(V[:, c]))
+
+	return y_hat/S
+
+
+
 def J_ns(c, o, U):
 	return -log(U[o, c])
 
-def J_ns_deriv_v(c, o, U, y):
-	#print(U[:,c] - y)
+def J_ns_deriv_v(c, o, U, y, y_hat):
+	# print(y_hat-y)
 	#print(U.transpose())
-	return U.dot(U[:,c] - y)  # U*(y^ - y)
+	return U.dot(y_hat - y).transpose()[0]  # U*(y^ - y)
 
-def J_ns_deriv_u(c, o, U, y, V, w):
+def J_ns_deriv_u(c, o, U, V, w, y, y_hat):
 	if w == o:
-		return V[:, c] * U[o, c] - V[:, c] * y[o]
+		return V[:, c] * y_hat[o] - V[:, c] * y[o]
 	return V[:, c] * y[w]
 
 def J_sg(c, U, V, word_index):
@@ -139,19 +152,21 @@ def grad_J(c, theta, batch, start):
         if c == batch[i][0] :
         	j = batch[i][1]
         	y = to_one_hot(j, vocab_size)
+        	y_h = y_hat(c, U, V)
 
         	# V part of grad J
-        	grad[c, :] += J_ns_deriv_v(c, j, U, y)
+        	grad[c, :] += J_ns_deriv_v(c, j, U, y, y_h)
+        	
         	# U part of grad J
         	for w in range(vocab_size):
-        		grad[vocab_size+w, :] += J_ns_deriv_u(c, j, U, y, V, w)
-
+        		grad[vocab_size+w, :] += J_ns_deriv_u(c, j, U, V, w, y, y_h)
+        		print(J_ns_deriv_u(c, j, U, V, w, y, y_h))
         # if the next center word is not the center word in the batck we are working on :
         # then we stop. return the vector grad and the indice of the next mini batch
         if i+1 <= len(batch) - 1 :
             if c != batch[i+1][0]:
-            	print(i)
-            	return grad, i
+            	# print(i)
+            	return grad, i+1
     return grad, i
 
 def main():
@@ -171,7 +186,7 @@ def main():
     #Generate batch
     batch = generate_batch(WINDOW_SIZE, sentences, word2int)
     print("\nbatch")
-    print(batch[1][1])
+    print(batch)
     print(len(batch))
 
     # Create one hot vectors
@@ -185,11 +200,6 @@ def main():
     print(x_train)
     print("\n y true empirical distribution = ")
     print(y_train)
-
-    print(J_ns_deriv_v(1, 2, np.eye(6, 6), y_train[:, 1]))
-    print(J_ns_deriv_u(1, 2, np.eye(6, 6), y_train[:, 1], x_train, 2))
-    print(J_ns_deriv_u(0, 2, np.eye(6, 6), y_train[:, 1], x_train, 0))
-
 
     # the context windows for center word c
     c = 1
@@ -216,16 +226,23 @@ def main():
     print("\nU = ")
     print(U)
 
+    print(y_hat(1, U, V))
+
+    print("\nder / v = ")
+    print(J_ns_deriv_v(1, 2, np.eye(6, 6), to_one_hot(1, 6), y_hat(1, U, V)))
+    print(J_ns_deriv_u(1, 2, U, V, 2, to_one_hot(1, 6), y_hat(1, U, V)))
+    #print(J_ns_deriv_u(0, 2, np.eye(6, 6), y_train[:, 1], x_train, 0, y_hat(1, U, V)))
+
+
     theta = np.vstack((V.transpose(), U.transpose()))
     print("\ntheta ini = ")
     print(theta)
     alpha = 0.1
     # while True:
     i = 0
-    for z in range(20):
+    for z in range(len(batch)):
     	theta_grad, i = grad_J(batch[i][0], theta, batch, i)
     	theta = theta - alpha * theta_grad
-    	print(z)
 
     print("\ntheta grad = ")
     print(theta)
