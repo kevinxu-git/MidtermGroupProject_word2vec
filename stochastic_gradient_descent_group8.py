@@ -102,13 +102,13 @@ def create_training_vectors(batch, dict_size):
     y_train = np.asarray(y_train)
     assert not np.any(np.isnan(x_train))
     assert not np.any(np.isnan(y_train))
-    return x_train, y_train
+    return x_train.transpose(), y_train.transpose()
 
 def J_ns(v, o, U):
 	return 1
 
-def J_ns_deriv_v(v, o, U):
-	return 1
+def J_ns_deriv_v(c, o, U, y):
+	return 
 
 def J_ns_deriv_u(v, o, U):
 	return 1
@@ -144,7 +144,7 @@ def main():
     print("\n y true empirical distribution = ")
     print(y_train)
 
-    
+
 
 if __name__ == '__main__':
     main()
