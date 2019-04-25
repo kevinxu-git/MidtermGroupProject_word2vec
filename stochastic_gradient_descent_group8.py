@@ -122,7 +122,6 @@ def J_ns(c, o, U):
 
 def J_ns_deriv_v(c, o, U, y, y_hat):
 	# print(y_hat-y)
-	#print(U.transpose())
 	return U.dot(y_hat - y).transpose()[0]  # U*(y^ - y)
 
 def J_ns_deriv_u(c, o, U, V, w, y, y_hat):
@@ -152,9 +151,13 @@ def grad_J(c, theta, batch, start):
         if c == batch[i][0] :
         	j = batch[i][1]
         	y = to_one_hot(j, vocab_size)
+        	print("\n\nbatch = ")
+        	print(batch[i])
         	y_h = y_hat(c, U, V)
+        	#print(y_h)
 
         	# V part of grad J
+        	print(J_ns_deriv_v(c, j, U, y, y_h))
         	grad[c, :] += J_ns_deriv_v(c, j, U, y, y_h)
         	
         	# U part of grad J
@@ -167,7 +170,7 @@ def grad_J(c, theta, batch, start):
             if c != batch[i+1][0]:
             	# print(i)
             	return grad, i+1
-    return grad, i
+    return grad, i+1
 
 def main():
     #Import data, clean up and structure
@@ -221,8 +224,8 @@ def main():
 
 
     # SDG
-    U = np.zeros((voc_size, voc_size)) + 1
-    V = np.zeros((voc_size, voc_size)) + 1
+    U = np.zeros((voc_size, voc_size)) + 0.1
+    V = np.zeros((voc_size, voc_size)) + 0.1
     print("\nU = ")
     print(U)
 
@@ -240,7 +243,11 @@ def main():
     alpha = 0.1
     # while True:
     i = 0
-    for z in range(len(batch)):
+    # for z in range(len(batch)):
+    nb_context_windows = len(batch)
+    while i != len(batch):
+    	print("\n\n\n\nCenter word = ")
+    	print(batch[i][0])
     	theta_grad, i = grad_J(batch[i][0], theta, batch, i)
     	theta = theta - alpha * theta_grad
 
