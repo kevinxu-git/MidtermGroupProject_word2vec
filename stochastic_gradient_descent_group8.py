@@ -139,9 +139,12 @@ def main():
     print("\nnb of words : ")
     print(len(int2word))
 
-
+    print("\nV = ")
     print(x_train)
+    print("\n y true empirical distribution = ")
     print(y_train)
+
+    
 
 if __name__ == '__main__':
     main()
