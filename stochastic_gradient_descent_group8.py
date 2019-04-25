@@ -74,7 +74,7 @@ def generate_batch(window_size, sentences, word2int):
     for i, sentence in enumerate(sentences):
         sentence_length = len(sentence)
         for i, word in enumerate(sentence):
-            for neighbour in sentence[max(i - window_size, 0) : min(i + window_size, sentence_length + 1)]:
+            for neighbour in sentence[max(i - window_size, 0) : min(i + window_size + 1, sentence_length + 1)]:
                 if neighbour != word:
                     batch.append([word2int[word], word2int[neighbour]])
     return batch
@@ -108,8 +108,8 @@ def J_ns(c, o, U):
 	return -log(U[o, c])
 
 def J_ns_deriv_v(c, o, U, y):
-	print(U[:,c] - y)
-	print(U.transpose())
+	#print(U[:,c] - y)
+	#print(U.transpose())
 	return U.dot(U[:,c] - y)  # U*(y^ - y)
 
 def J_ns_deriv_u(c, o, U, y, V, w):
@@ -122,6 +122,24 @@ def J_sg(c, U, V, word_index):
 	for j in word_index:
 		S += J_ns(c, j, U)
 	return S
+
+def grad_J(c, U, V, batch, start):
+    vocab_size = len(U)
+    grad = np.zeros(vocab_size)
+
+    # start is the indice of the mini batch we are working on.
+    for i in range(start,len(batch)):
+        if c == batch[i][0] :
+        	j = batch[i][1]
+        	y = to_one_hot(j, vocab_size)
+        	grad += J_ns_deriv_u(c, j, U, y, V, j) + J_ns_deriv_v(c, j, U, y)
+
+        # if the next center word is not the center word in the batck we are working on :
+        # then we stop. return the vector grad and the indice of the next mini batch
+        if i+1 <= len(batch) - 1 :
+            if c != batch[i+1][0]:
+                return grad, i
+    return grad, i
 
 def main():
     #Import data, clean up and structure
@@ -140,7 +158,7 @@ def main():
     #Generate batch
     batch = generate_batch(WINDOW_SIZE, sentences, word2int)
     print("\nbatch")
-    print(batch)
+    print(batch[1][1])
     print(len(batch))
 
     # Create one hot vectors
@@ -173,6 +191,30 @@ def main():
 
     print(J_sg(c, np.eye(6, 6)+2, np.eye(6, 6), words_index))
 
+    voc_size = dict_size
+    print("\nsize dico = ")
+    print(voc_size)
+
+
+
+    # SDG
+    U = np.zeros((voc_size, voc_size)) + 1
+    V = np.zeros((voc_size, voc_size)) + 1
+    print("\nU = ")
+    print(U)
+
+    theta = np.vstack((U.transpose(), V.transpose()))
+    print("\ntheta ini = ")
+    print(theta)
+    alpha = 0.1
+    # while True:
+    theta_grad, i = grad_J(0, U, V, batch, 0)
+    print("\ntheta grad = ")
+    print(theta_grad)
+
+    theta = theta - alpha * theta_grad
+    print("\ntheta grad = ")
+    print(theta)
 
 
 if __name__ == '__main__':
