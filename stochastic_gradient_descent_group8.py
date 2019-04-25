@@ -104,8 +104,8 @@ def create_training_vectors(batch, dict_size):
     assert not np.any(np.isnan(y_train))
     return x_train.transpose(), y_train.transpose()
 
-def J_ns(v, o, U):
-	return 1
+def J_ns(c, o, U):
+	return -log(U[o, c])
 
 def J_ns_deriv_v(c, o, U, y):
 	print(U[:,c] - y)
@@ -116,6 +116,12 @@ def J_ns_deriv_u(c, o, U, y, V, w):
 	if w == o:
 		return V[:, c] * U[o, c] - V[:, c] * y[o]
 	return V[:, c] * y[w]
+
+def J_sg(c, U, V, word_index):
+	S = 0
+	for j in word_index:
+		S += J_ns(c, j, U)
+	return S
 
 def main():
     #Import data, clean up and structure
@@ -149,9 +155,25 @@ def main():
     print("\n y true empirical distribution = ")
     print(y_train)
 
-    print(J_ns_deriv_v(1, 2, x_train, y_train[:, 1]))
-    print(J_ns_deriv_u(1, 2, x_train, y_train[:, 1], x_train, 2))
-    print(J_ns_deriv_u(0, 2, x_train, y_train[:, 1], x_train, 0))
+    print(J_ns_deriv_v(1, 2, np.eye(6, 6), y_train[:, 1]))
+    print(J_ns_deriv_u(1, 2, np.eye(6, 6), y_train[:, 1], x_train, 2))
+    print(J_ns_deriv_u(0, 2, np.eye(6, 6), y_train[:, 1], x_train, 0))
+
+
+    # the context windows for center word c
+    c = 1
+    context_windows = y_train[:, 1:3]
+    # print(np.where(context_windows[:,1] == 1)[0][0])
+
+    # The words index in the context windows
+    words_index = []
+    for i in range(len(context_windows[0])):
+    	words_index.append(np.where(context_windows[:,i] == 1)[0][0])
+    print(words_index)
+
+    print(J_sg(c, np.eye(6, 6)+2, np.eye(6, 6), words_index))
+
+
 
 if __name__ == '__main__':
     main()
