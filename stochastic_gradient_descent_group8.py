@@ -108,10 +108,14 @@ def J_ns(v, o, U):
 	return 1
 
 def J_ns_deriv_v(c, o, U, y):
-	return 
+	print(U[:,c] - y)
+	print(U.transpose())
+	return U.dot(U[:,c] - y)  # U*(y^ - y)
 
-def J_ns_deriv_u(v, o, U):
-	return 1
+def J_ns_deriv_u(c, o, U, y, V, w):
+	if w == o:
+		return V[:, c] * U[o, c] - V[:, c] * y[o]
+	return V[:, c] * y[w]
 
 def main():
     #Import data, clean up and structure
@@ -131,6 +135,7 @@ def main():
     batch = generate_batch(WINDOW_SIZE, sentences, word2int)
     print("\nbatch")
     print(batch)
+    print(len(batch))
 
     # Create one hot vectors
     dict_size = len(int2word)
@@ -144,7 +149,9 @@ def main():
     print("\n y true empirical distribution = ")
     print(y_train)
 
-
+    print(J_ns_deriv_v(1, 2, x_train, y_train[:, 1]))
+    print(J_ns_deriv_u(1, 2, x_train, y_train[:, 1], x_train, 2))
+    print(J_ns_deriv_u(0, 2, x_train, y_train[:, 1], x_train, 0))
 
 if __name__ == '__main__':
     main()
