@@ -123,22 +123,35 @@ def J_sg(c, U, V, word_index):
 		S += J_ns(c, j, U)
 	return S
 
-def grad_J(c, U, V, batch, start):
-    vocab_size = len(U)
-    grad = np.zeros(vocab_size)
+def grad_J(c, theta, batch, start):
+    vocab_size = len(theta[0])
+
+    # U and V
+    split = np.vsplit(theta, 2)
+    V = split[0].transpose()
+    U = split[1].transpose()
+
+    grad = np.zeros_like(theta)
+    #print(grad)
 
     # start is the indice of the mini batch we are working on.
-    for i in range(start,len(batch)):
+    for i in range(start, len(batch)):
         if c == batch[i][0] :
         	j = batch[i][1]
         	y = to_one_hot(j, vocab_size)
-        	grad += J_ns_deriv_u(c, j, U, y, V, j) + J_ns_deriv_v(c, j, U, y)
+
+        	# V part of grad J
+        	grad[c, :] += J_ns_deriv_v(c, j, U, y)
+        	# U part of grad J
+        	for w in range(vocab_size):
+        		grad[vocab_size+w, :] += J_ns_deriv_u(c, j, U, y, V, w)
 
         # if the next center word is not the center word in the batck we are working on :
         # then we stop. return the vector grad and the indice of the next mini batch
         if i+1 <= len(batch) - 1 :
             if c != batch[i+1][0]:
-                return grad, i
+            	print(i)
+            	return grad, i
     return grad, i
 
 def main():
@@ -203,18 +216,22 @@ def main():
     print("\nU = ")
     print(U)
 
-    theta = np.vstack((U.transpose(), V.transpose()))
+    theta = np.vstack((V.transpose(), U.transpose()))
     print("\ntheta ini = ")
     print(theta)
     alpha = 0.1
     # while True:
-    theta_grad, i = grad_J(0, U, V, batch, 0)
-    print("\ntheta grad = ")
-    print(theta_grad)
+    i = 0
+    for z in range(20):
+    	theta_grad, i = grad_J(batch[i][0], theta, batch, i)
+    	theta = theta - alpha * theta_grad
+    	print(z)
 
-    theta = theta - alpha * theta_grad
     print("\ntheta grad = ")
     print(theta)
+    print("\ni=")
+    print(i)
+
 
 
 if __name__ == '__main__':
