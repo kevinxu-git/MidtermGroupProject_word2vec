@@ -135,13 +135,15 @@ def J_sg(c, U, V, word_index):
 		S += J_ns(c, j, U)
 	return S
 
+def U_V_from_theta(theta):
+    split = np.vsplit(theta, 2)
+    return split[1].transpose(), split[0].transpose()
+
 def grad_J(c, theta, batch, start):
     vocab_size = len(theta[0])
 
     # U and V
-    split = np.vsplit(theta, 2)
-    V = split[0].transpose()
-    U = split[1].transpose()
+    U, V = U_V_from_theta(theta)
 
     grad = np.zeros_like(theta)
     #print(grad)
@@ -255,6 +257,14 @@ def main():
     print(theta)
     print("\ni=")
     print(i)
+
+
+    U, V = U_V_from_theta(theta)
+    print("\n\n\nU = ")
+    print(U)
+    print("\n\n\nV = ")
+    print(V)
+
 
 
 
