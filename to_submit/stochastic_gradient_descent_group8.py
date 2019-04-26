@@ -1,3 +1,5 @@
+# gensim
+import gensim.downloader as api
 # Korean corpus
 from konlpy.corpus import kolaw # imports the textfile pointer
 from konlpy import utils
@@ -178,8 +180,6 @@ def word2vec_skip_gram(dictionary, sentences):
     
     # Stochastic gradient descent
     theta = np.vstack((V.transpose(), U.transpose()))
-    print("\ntheta ini = ")
-    print(theta)
     alpha = 0.1
     i = 0
     while i != len(batch):
@@ -191,15 +191,20 @@ def word2vec_skip_gram(dictionary, sentences):
 
 def main():
     # Import data
-    # sentences = pre_process("L’extrait et le message ont été ciselés avec soin pour les réseaux sociaux et ils ont fait mouche : les partages se comptent par milliers, contribuant à donner de l’ampleur à la désinformation sur le pacte de Marrakech. Les vidéos ont, quant à elles, été visionnées plus de 50 000 fois sur les différentes plates-formes. D’autres sites Internet l’ont également relayée à leur tour. Ces scores n’ont rien d’anormal pour @fandetv, un compte Twitter influent au sein de la droite et de l’extrême droite en ligne. Il est notamment suivi par Marion Maréchal, Fabrice Robert, chef de file des identitaires, ou encore par le compte officiel de la Manif pour tous.Il faut dire que le compte ne ménage pas sa peine, avec plus de 130 000 messages postés depuis 2009. Parmi ses publications qui ont fait sensation, on trouve une intervention télévisée du maire RN de Beaucaire, Julien Sanchez, qualifiant une porte-parole écologiste de « baba cool » qui « n’y conna[ît] rien » au sujet de l’immigration. Un autre extrait à succès, visionné près de 200 000 fois sur la chaîne YouTube The Boss (avant que celle-ci soit mise hors ligne), montre le polémiste Gilles-William Goldnadel interpeller Jean-Michel Aphatie, le qualifiant de « caricature de journaliste ».Six comptes Twitter, 100 000 abonnés et plusieurs chaînes YouTube fandetv se montre par ailleurs assez peu scrupuleux dans ses choix. En février 2018, il a largement mis en avant des propos mensongers de Jean Messiha, un membre du bureau national du RN. Ce dernier assurait sur CNews que l’aide médicale d’Etat (AME) était accordée sans condition aux étrangers en situation irrégulière – ce qui est faux, car il y a bien des conditions de ressources et de résidence stable et régulière. Qu’importe : l’intervention de M. Messiha a été visionnée près de 20 000 fois par la seule grâce d’un tweet de fandetv.Ces scores sont loin d’être anodins lorsqu’on les compare aux audiences de ses émissions, qui se chiffrent généralement en dizaines de milliers de téléspectateurs. « Je suis un simple anonyme qui partage des vidéos de temps en temps sur Twitter et souhaiterait rester dans l’anonymat », a pourtant relativisé l’auteur du compte lorsque nous avons cherché à le contacter par mail, refusant de s’entretenir avec nous.Son activisme en ligne va pourtant bien au-delà de ce seul compte Twitter. Selon les informations que nous avons réunies, c’est un certain Cédric D. qui se cache derrière @fandetv. Cet homme n’anime en réalité pas seulement un, mais au moins six comptes sur le réseau social, qui totalisent plus de 100 000 abonnés, ainsi que plusieurs chaînes YouTube qui représentent des dizaines de millions de vues. Et ses activités vont bien au-delà, avec de multiples sites Internet et des activités commerciales en ligne qui semblent s’inscrire hors du cadre prévu par la loi. Un curieux profil, entre activisme en ligne et affaires douteuses.")
+    # sentences = pre_process()
     # print("Sentences : ")
     # print(sentences)
 
     # Korean corpus
-    # data = kolaw.open('constitution.txt').read()
+    data = kolaw.open('constitution.txt').read()
+    sentences = pre_process(data)
+    print(sentences)
+
+    # gensim 
+    # corpus = api.load('text8')
+    # data = " ".join(list(corpus)[0])
     # sentences = pre_process(data)
-    #print(sentences)
-    sentences = pre_process("bonjour, je m'appelle Kevin. Et je suis Kevin. Elle s'appelle Eric. Lui il s'appelle Clement. Et finalement, il lui passe le bonjour. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. je m'appelle Kevin. ")
+    # print(data)
 
     # Clean up and pre-process 
     dictionary = create_dictionary(sentences)
