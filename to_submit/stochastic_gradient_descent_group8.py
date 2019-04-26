@@ -191,14 +191,17 @@ def word2vec_skip_gram(dictionary, sentences):
 
 def main():
     # Import data
-    # sentences = pre_process()
-    # print("Sentences : ")
-    # print(sentences)
+    f = open("article1.txt", "r")
+    data = f.read()
+    f.close()
+    sentences = pre_process(data)
+    print("Sentences : ")
+    print(sentences)
 
     # Korean corpus
-    data = kolaw.open('constitution.txt').read()
-    sentences = pre_process(data)
-    print(sentences)
+    # data = kolaw.open('constitution.txt').read()
+    # sentences = pre_process(data)
+    # print(sentences)
 
     # gensim 
     # corpus = api.load('text8')
@@ -211,11 +214,19 @@ def main():
     int2word, word2int = dictionary
     vocab_size = len(int2word)
     print("Number of unique words = ", vocab_size, end = "\n")
-    print("Dictionary : ", end = "\n")
+    # print("Dictionary : ", end = "\n")
     # print(list(word2int), end = "\n\n")
 
     # word2vec
     U, V = word2vec_skip_gram(dictionary, sentences)
+
+    # Save U and V
+    f = open("output.txt", "w")
+    f.write("U = \n")
+    f.write(str(U))
+    f.write("\nV = \n")
+    f.write(str(V))
+    f.close()
     
     # PCA 
     X = U+V
