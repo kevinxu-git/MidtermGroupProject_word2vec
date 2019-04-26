@@ -226,26 +226,5 @@ def main():
             pyplot.annotate(int2word[i], xy=(result[i, 0], result[i, 1]))
     pyplot.show()
 
-##    # Predicting the Test set results
-##    y_pred = classifier.predict(X_test)
-##
-##    cm = confusion_matrix(y_test, y_pred)  
-##    print(cm)  
-##    print('Accuracy' + accuracy_score(y_test, y_pred))  
-    
-##    print("\n\n\nU = ")
-##    print(U)
-##    print("\n\n\nV = ")
-##    print(V)
-##
-##    print(U+V)
-##    A= U+V
-##
-##    distance = 0
-##    for i in range(vocab_size):
-##        distance += sqrt((A[i,0] - A[i,5])**2)
-
-##    print(distance)
-
 if __name__ == '__main__':
     main()
