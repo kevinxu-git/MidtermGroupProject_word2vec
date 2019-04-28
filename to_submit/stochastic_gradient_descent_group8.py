@@ -21,7 +21,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import accuracy_score
 
-BAD_CHARS = [',', '<', '>', '!', '?', '-','<', ':',';','*']
+BAD_CHARS = [',', '<', '>', '!', '?', '-','<', ':',';','*', '[', ']', '{', '}', '(', ')']
 
 WINDOW_SIZE = 2
 
@@ -200,10 +200,11 @@ def main():
     # print("Sentences : ")
     # print(sentences)
 
+    data = open('financenews.txt')
+    print(data)
     # Korean corpus
-    data = kolaw.open('constitution.txt').read()
+    #data = kolaw.open('constitution.txt').read()
     sentences = pre_process(data)
-
     # gensim
     # corpus = api.load('text8')
     # data = " ".join(list(corpus)[0])
