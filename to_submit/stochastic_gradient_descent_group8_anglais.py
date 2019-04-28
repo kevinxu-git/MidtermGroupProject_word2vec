@@ -196,9 +196,9 @@ def word2vec_skip_gram(dictionary, sentences):
 
 def main():
     # Import data
-    # sentences = pre_process("")
-    # print("Sentences : ")
-    # print(sentences)
+    sentences = pre_process("Je m'appelle Kevin. Il s'appelle Eric. Je suis Eric. Je m'appelle Kevin. Je m'appelle Kevin. Je m'appelle Kevin. Je m'appelle Kevin. Je m'appelle Kevin. Je m'appelle Kevin. Je m'appelle Kevin. Je m'appelle Kevin.")
+    print("Sentences : ")
+    print(sentences)
 
     # Korean corpus
     # data = kolaw.open('constitution.txt').read()
@@ -210,10 +210,10 @@ def main():
     # sentences = pre_process(data)
     # print(data)
 
-    f = open("financenews.txt", "r", encoding = "utf-8")
-    data = f.read()
-    f.close()
-    sentences = pre_process(data)
+    # f = open("financenews.txt", "r", encoding = "utf-8")
+    # data = f.read()
+    # f.close()
+    # sentences = pre_process(data)
 
 
     # Clean up and pre-process
@@ -225,9 +225,9 @@ def main():
     # print(list(word2int), end = "\n\n")
 
     # To display Korean words
-    font_location = 'Typo_DodamM.ttf'
-    # ex - 'C:/asiahead4.ttf'
-    prop = fm.FontProperties(fname = font_location)
+    # font_location = 'Typo_DodamM.ttf'
+    # # ex - 'C:/asiahead4.ttf'
+    # prop = fm.FontProperties(fname = font_location)
     # print(font_name)
     # pyplot.rc('font', family = prop)
     # pyplot.rc('font', **{'sans-serif' : 'Arial',
@@ -243,7 +243,7 @@ def main():
     f.write("\nV = \n")
     f.write(str(V))
     f.close()
-
+    
     # PCA
     X = U+V
     pca = PCA(n_components = 2)
@@ -255,8 +255,8 @@ def main():
     pyplot.scatter(result[:, 0], result[:, 1])
 
     for i in range(len(U)):
-            pyplot.annotate(int2word[i], xy=(result[i, 0], result[i, 1]), fontproperties = prop)
-    pyplot.xlabel(u'언녕', fontproperties = prop)
+            pyplot.annotate(int2word[i], xy=(result[i, 0], result[i, 1]))
+    # pyplot.xlabel(u'언녕', fontproperties = prop)
     pyplot.show()
 
 if __name__ == '__main__':

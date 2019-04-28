@@ -1,5 +1,3 @@
-#-*- coding:utf-8 -*-
-
 # gensim
 import gensim.downloader as api
 # Korean corpus
@@ -10,15 +8,12 @@ import matplotlib.pyplot as pyplot
 import random as r
 import numpy as np
 from math import *
-import codecs
-
-import matplotlib.font_manager as fm
 
 from sklearn.decomposition import PCA
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import confusion_matrix  
 from sklearn.metrics import accuracy_score
 
 BAD_CHARS = [',', '<', '>', '!', '?', '-','<', ':',';','*']
@@ -117,7 +112,7 @@ Input: the parameters of the loss J
 Output: the partial derivative of J with respect to v
 '''
 def J_ns_deriv_v(c, o, U, y, y_hat):
-	return U.dot(y_hat - y).transpose()[0]
+	return U.dot(y_hat - y).transpose()[0] 
 
 '''
 Input: the parameters of the loss J
@@ -154,7 +149,7 @@ def grad_J(c, theta, batch, start):
 
         	# V part of grad J
         	grad[c, :] += J_ns_deriv_v(c, j, U, y, y_h)
-
+        	
         	# U part of grad J
         	for w in range(vocab_size):
         		grad[vocab_size+w, :] += J_ns_deriv_u(c, j, U, V, w, y, y_h)
@@ -166,6 +161,10 @@ def grad_J(c, theta, batch, start):
             	return grad, i+1
     return grad, i+1
 
+'''
+Input: the dictionary and the sentences
+Output: U and V from word2vec
+'''
 def word2vec_skip_gram(dictionary, sentences):
     int2word, word2int = dictionary
     vocab_size = len(int2word)
@@ -182,7 +181,7 @@ def word2vec_skip_gram(dictionary, sentences):
         for j in range(vocab_size):
             U[i,j]=r.uniform(0,1)
             V[i,j]=r.uniform(0,1)
-
+    
     # Stochastic gradient descent
     theta = np.vstack((V.transpose(), U.transpose()))
     alpha = 0.1
@@ -196,42 +195,22 @@ def word2vec_skip_gram(dictionary, sentences):
 
 def main():
     # Import data
-    # sentences = pre_process("")
-    # print("Sentences : ")
-    # print(sentences)
+    # f = open("article1.txt", "r")
+    # data = f.read()
+    # f.close()
+    # sentences = pre_process(data)
 
     # Korean corpus
-    # data = kolaw.open('constitution.txt').read()
-    # sentences = pre_process(data)
-
-    # gensim
-    # corpus = api.load('text8')
-    # data = " ".join(list(corpus)[0])
-    # sentences = pre_process(data)
-    # print(data)
-
-    f = open("financenews.txt", "r", encoding = "utf-8")
-    data = f.read()
-    f.close()
+    data = kolaw.open('constitution.txt').read()
     sentences = pre_process(data)
 
-
-    # Clean up and pre-process
+    # Clean up and pre-process 
     dictionary = create_dictionary(sentences)
     int2word, word2int = dictionary
     vocab_size = len(int2word)
     print("Number of unique words = ", vocab_size, end = "\n")
     # print("Dictionary : ", end = "\n")
     # print(list(word2int), end = "\n\n")
-
-    # To display Korean words
-    font_location = 'Typo_DodamM.ttf'
-    # ex - 'C:/asiahead4.ttf'
-    prop = fm.FontProperties(fname = font_location)
-    # print(font_name)
-    # pyplot.rc('font', family = prop)
-    # pyplot.rc('font', **{'sans-serif' : 'Arial',
-    #                      'family' : 'sans-serif'})
 
     # word2vec
     U, V = word2vec_skip_gram(dictionary, sentences)
@@ -243,20 +222,19 @@ def main():
     f.write("\nV = \n")
     f.write(str(V))
     f.close()
-
-    # PCA
+    
+    # PCA 
     X = U+V
     pca = PCA(n_components = 2)
-    result = pca.fit_transform(X.transpose())
-    # print("Explained variance ratio : " ,pca.explained_variance_ratio_, end = "\n")
-    # print("Singular values : ",pca.singular_values_, end = "\n")
-
+    result = pca.fit_transform(X)
+    # print("Explained variance ratio : " ,pca.explained_variance_ratio_, end = "\n")  
+    # print("Singular values : ",pca.singular_values_, end = "\n")  
+    
     # Plot of word vectors
     pyplot.scatter(result[:, 0], result[:, 1])
 
     for i in range(len(U)):
-            pyplot.annotate(int2word[i], xy=(result[i, 0], result[i, 1]), fontproperties = prop)
-    pyplot.xlabel(u'언녕', fontproperties = prop)
+            pyplot.annotate(int2word[i], xy=(result[i, 0], result[i, 1]))
     pyplot.show()
 
 if __name__ == '__main__':
