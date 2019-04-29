@@ -196,9 +196,9 @@ def word2vec_skip_gram(dictionary, sentences):
 
 def main():
     # Import data
-    # sentences = pre_process("")
-    # print("Sentences : ")
-    # print(sentences)
+    sentences = pre_process("박스를 자르던 김인용 씨 가 얼굴에 맺힌 땀을 닦으며 말했다. 그는 올 초부터 이곳에서 캔버스를 만들고 있다. 2016년 문을 연 러블리페이퍼 는 폐지를 줍는 저소득층 노인을 돕는 사회적 기업이다. 인텔은 이익 전망에 대한 실망감을 빌미로 10%에 달하는 폭락을 연출했다. 반면 포드는 1분기 이익과 매출 감소 폭이 시장의 예상보다 작은 것으로 나타나면서 10% 선에서 랠리했다. 국제 유가는 가파르게 하락했다. 뉴욕상업거래소에서 서부텍사스산원유(WTI)가 2.9% 떨어진 배럴당 63.30달러에 거래됐다. 도널드 트럼프 대통령이 석유수출국기구(OPEC) 정책자와 전화 통화를 갖고 유가 안정을 위해 대응할 것을 요구했다고 밝히면서 ‘팔자’가 쏟아졌다. E트레이드 파이낸셜은 투자 보고서를 내고 “GDP 성장률이 크게 상승했지만 비즈니스 사이클이 하강 기류로 접어들었고, 기업 이익 전망이 만족스럽지 못하다”고 평가했다. 펜 뮤추얼 애셋 매니지먼트의 지웨이 렌 포트폴리오 매니저는 마켓워치와 인터뷰에서 “인텔의 이익 전망이 IT 섹터에 부담을 가했다”고 말했다. [뉴욕=뉴스핌] 황숙혜 특파원 = 도널드 트럼프 미국 대통령이 석유수출국기구(OPEC)에 공급 확대를 주문한 데 따라 국제 유가가 큰 폭으로 떨어졌다. 서부텍사스산원유(WTI) 일간 추이 [출처=인베스팅닷컴 앞서 사우디 아라비아가 미국의 이란 제재 면제 종료에 즉각 대응할 필요가 없다는 입장을 제시한 데 대해 반기를 든 셈이다. 26일(현지시각) 뉴욕상업거래소에서 서부텍사스산원유(WTI)가 1.91달러(2.9%) 급락하며 배럴당 63.30달러에 거래됐다. 장중 한 때 WTI는 4% 후퇴하며 배럴당 62달러 선으로 밀린 뒤 낙폭을 축소했다. 국제 벤치마크인 브렌트유 역시 장중 한 때 4% 가량 내리 꽂히며 배럴당 71달러 선으로 밀리며 미국의 이란 강경책 발표 이후 상승분 가운데 상당 부분을 토해냈다.")
+    print("Sentences : ")
+    print(sentences)
 
     # Korean corpus
     # data = kolaw.open('constitution.txt').read()
@@ -210,10 +210,10 @@ def main():
     # sentences = pre_process(data)
     # print(data)
 
-    f = open("financenews.txt", "r", encoding = "utf-8")
-    data = f.read()
-    f.close()
-    sentences = pre_process(data)
+    # f = open("financenews.txt", "r", encoding = "utf-8")
+    # data = f.read()
+    # f.close()
+    # sentences = pre_process(data)
 
 
     # Clean up and pre-process
@@ -237,8 +237,20 @@ def main():
     U, V = word2vec_skip_gram(dictionary, sentences)
 
     # Save U and V
+    # f = open("output.txt", "w")
+    # f.write("U = \n")
+    # f.write(str(U))
+    # f.write("\nV = \n")
+    # f.write(str(V))
+    # f.close()
     np.savetxt('matrix_U.txt', U, fmt='%f')
     np.savetxt('matrix_V.txt', V, fmt='%f')
+
+    print(U)
+    # print(U[1,1])
+    # b = np.loadtxt('test1.txt')
+    # print(b[1,1])
+    # print(U == b)
 
     # PCA
     X = U+V
@@ -251,7 +263,7 @@ def main():
     pyplot.scatter(result[:, 0], result[:, 1])
 
     for i in range(len(U)):
-        pyplot.annotate(int2word[i], xy=(result[i, 0], result[i, 1]), fontproperties = prop)
+            pyplot.annotate(int2word[i], xy=(result[i, 0], result[i, 1]), fontproperties = prop)
     pyplot.xlabel(u'언녕', fontproperties = prop)
     pyplot.show()
 
