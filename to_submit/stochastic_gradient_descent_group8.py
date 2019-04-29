@@ -224,15 +224,6 @@ def main():
     # print("Dictionary : ", end = "\n")
     # print(list(word2int), end = "\n\n")
 
-    # To display Korean words
-    font_location = 'Typo_DodamM.ttf'
-    # ex - 'C:/asiahead4.ttf'
-    prop = fm.FontProperties(fname = font_location)
-    # print(font_name)
-    # pyplot.rc('font', family = prop)
-    # pyplot.rc('font', **{'sans-serif' : 'Arial',
-    #                      'family' : 'sans-serif'})
-
     # word2vec
     U, V = word2vec_skip_gram(dictionary, sentences)
 
@@ -247,7 +238,18 @@ def main():
     # print("Explained variance ratio : " ,pca.explained_variance_ratio_, end = "\n")
     # print("Singular values : ",pca.singular_values_, end = "\n")
 
+
     # Plot of word vectors
+
+    # To display Korean words
+    font_location = 'Typo_DodamM.ttf'
+    # ex - 'C:/asiahead4.ttf'
+    prop = fm.FontProperties(fname = font_location)
+    # print(font_name)
+    # pyplot.rc('font', family = prop)
+    # pyplot.rc('font', **{'sans-serif' : 'Arial',
+    #                      'family' : 'sans-serif'})
+
     pyplot.scatter(result[:, 0], result[:, 1])
 
     for i in range(len(U)):
