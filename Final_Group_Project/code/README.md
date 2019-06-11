@@ -3,19 +3,11 @@
  + understand dataset
 
 # Python
- + Represent trees ? and how to draw them
+## DONE
  + Stack -> OK (list.append() pop() remove() ...)
-
  
- + 
- + 
- + 
- + 
- + 
- + 
- + 
- + 
- + 
+## TODO
+ + Represent trees ? and how to draw them
  + 
  + 
  + 
