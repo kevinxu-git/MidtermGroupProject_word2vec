@@ -196,9 +196,9 @@ def word2vec_skip_gram(dictionary, sentences):
 
 def main():
     # Import data
-    sentences = pre_process("Je m'appelle Kevin. Il s'appelle Eric. Je suis Eric. Je m'appelle Kevin. Je m'appelle Kevin. Je m'appelle Kevin. Je m'appelle Kevin. Je m'appelle Kevin. Je m'appelle Kevin. Je m'appelle Kevin. Je m'appelle Kevin.")
-    print("Sentences : ")
-    print(sentences)
+    # sentences = pre_process("Je m'appelle Kevin. Il s'appelle Eric. Je suis Eric. Je m'appelle Kevin. Je m'appelle Kevin. Je m'appelle Kevin. Je m'appelle Kevin. Je m'appelle Kevin. Je m'appelle Kevin. Je m'appelle Kevin. Je m'appelle Kevin.")
+    # print("Sentences : ")
+    # print(sentences)
 
     # Korean corpus
     # data = kolaw.open('constitution.txt').read()
@@ -210,10 +210,10 @@ def main():
     # sentences = pre_process(data)
     # print(data)
 
-    # f = open("financenews.txt", "r", encoding = "utf-8")
-    # data = f.read()
-    # f.close()
-    # sentences = pre_process(data)
+    f = open("article1.txt", "r", encoding = "utf-8")
+    data = f.read()
+    f.close()
+    sentences = pre_process(data)
 
 
     # Clean up and pre-process
