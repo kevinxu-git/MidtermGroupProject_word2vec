@@ -2,6 +2,7 @@
  + read Nivre.pdf
  + understand dataset
  + understand Korean sentence structure
+ + understand arc-eager algorithm
 
 # Python
 ## DONE
