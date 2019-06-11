@@ -25,6 +25,27 @@ print(T)
 # Horizontal
 # np.concatenate((a,b),axis=1)
 
+# Trees - print trees
+from anytree import Node, RenderTree
+udo = Node("Uddazdazo")
+marc = Node("Madzadazrc", parent=udo)
+lian = Node("Liadazdan", parent=marc)
+dan = Node("Dadazdazn", parent=udo)
+jet = Node("Jedazdazt", parent=dan)
+jan = Node("Jadddn", parent=dan)
+joe = Node("Jdazdzaoe", parent=dan)
+
+print(udo)
+# Node('/Udo')
+print(joe)
+# Node('/Udo/Dan/Joe')
+
+# for pre, fill, node in RenderTree(udo):	
+# 	print("%s%s" % (pre, node.name))
+
+# from anytree.exporter import DotExporter
+# # graphviz needs to be installed for the next line!
+# DotExporter(udo).to_picture("udo.png")
 
 
 def main():

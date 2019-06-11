@@ -15,3 +15,7 @@
  + 
 
 # GOAL : http://air.changwon.ac.kr/~airdemo/Espresso/
+
+# TO INSTALL
+ + pip install anytree
+ + pip install graphviz
