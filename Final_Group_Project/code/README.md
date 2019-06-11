@@ -4,7 +4,7 @@
 
 # Python
  + Represent trees ? and how to draw them
- + Stack -> OK
+ + Stack -> OK (list.append() pop() remove() ...)
 
  
  + 
