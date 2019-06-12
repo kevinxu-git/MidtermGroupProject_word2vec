@@ -10,14 +10,14 @@ from math import *
 # Trees - print trees
 from anytree import Node, RenderTree
 udo = Node("Uddazdazo")
-marc = Node("Madzadazrc", parent=udo)
+marc = Node(1, parent=udo)
 lian = Node("Liadazdan", parent=marc)
 dan = Node("Dadazdazn", parent=udo)
 jet = Node("Jedazdazt", parent=dan)
 jan = Node("Jadddn", parent=dan)
 joe = Node("Jdazdzaoe", parent=dan)
 
-print(udo)
+print(marc)
 # Node('/Udo')
 print(joe)
 # Node('/Udo/Dan/Joe')
@@ -101,8 +101,19 @@ def main():
 	print("Number of unique words = ", vocab_size, end = "\n")
 	print(dictionary, end = "\n\n")
 
-	sentence1 = sentences[0]
-	print(sentence1)
+	s1 = sentences[0]
+	print(s1)
+
+	# L = np.zeros((vocab_size, vocab_size))
+	# print(L)
+
+	# L[0, 0] = 1
+	# L[0, 3] = 1
+	# L[3, 5] = 1
+	# L[5, 6] = 1
+	# L[3, 8] = 1
+	# matrixToTree(L)
+
 
 
 
