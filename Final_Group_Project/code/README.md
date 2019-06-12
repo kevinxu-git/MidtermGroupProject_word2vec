@@ -13,7 +13,7 @@
 
 # arc-eager algo
  + Each word = number
- + A = arc between two words
+ + A = arc between two words --> maybe an array 1xn where array[i] is the parent of i in the tree
  + 
  + 
  + 
