@@ -10,8 +10,10 @@
  
 ## TODO
  + Represent trees ? and how to draw them -> OK
- + 
- + 
+
+# arc-eager algo
+ + Each word = number
+ + A = arc between two words
  + 
  + 
  + 
