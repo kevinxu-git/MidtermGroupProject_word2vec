@@ -7,24 +7,6 @@ import random as r
 import numpy as np
 from math import *
 
-# Test
-L = [0]*2
-print(L)
-
-T = np.arange(8)
-print(T)
-
-T = np.ones((2, 3))
-print(T)
-
-T = np.random.rand(3)
-print(T)
-
-# Vertical
-# np.concatenate((a,b),axis=0)
-# Horizontal
-# np.concatenate((a,b),axis=1)
-
 # Trees - print trees
 from anytree import Node, RenderTree
 udo = Node("Uddazdazo")
@@ -92,7 +74,7 @@ def create_dictionary(list_of_sentences):
 
     return int2word, word2int
 
-# Functions for arc-earger algorithm
+# Functions for arc-earger parsing algorithm
 def leftArc():
   return 0
   
