@@ -14,6 +14,7 @@
 # arc-eager algo
  + Each word = number
  + A = arc between two words --> maybe an array 1xn where array[i] is the parent of i in the tree
+ OR NOT, just an array where are added 'arc' like A.append([2,3])
  + 
  + 
  + 
