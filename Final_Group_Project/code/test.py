@@ -92,6 +92,19 @@ def create_dictionary(list_of_sentences):
 
     return int2word, word2int
 
+# Functions for arc-earger algorithm
+def leftArc():
+  return 0
+  
+def rightArc():
+  return 0
+  
+def reduce():
+  return 0
+
+def shift():
+	return 0
+
 def NivreParser(S, I, A):
 	return 0
 
@@ -114,3 +127,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
