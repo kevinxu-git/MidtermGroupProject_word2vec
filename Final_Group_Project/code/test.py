@@ -74,18 +74,27 @@ def create_dictionary(list_of_sentences):
 
     return int2word, word2int
 
-# Functions for arc-earger parsing algorithm
-def leftArc():
-  return 0
-  
-def rightArc():
-  return 0
-  
-def reduce():
-  return 0
-
-def shift():
+# Functions for arc-earger parsing algorithm : leftArc, rightArc, reduce, shift
+def leftArc(S,I,A,j):
+	A.append([j,len(S)]) # add the arc (j,i) to A 
+	S.pop()              # and pop the stack
 	return 0
+	# the parameter I is not used in leftArc it seems
+  
+def rightArc(S,I,A,j):
+	A.append([len(S),j])
+	S.append(I.remove(j)) # what's really to be removed from I to put onto the top of the stack S ? 
+	return 0              # probably not j depending on how we code
+  
+def reduce(S):
+	S.pop()              # pop the stack --> only delete a word ??
+	return 0
+
+def shift(S,I,A):
+	smth = remove(I[0])  # is I[0] the right 'next input token' to be removed ?
+	S.append(smth)
+	return 0
+	# parameter A not used
 
 def NivreParser(S, I, A):
 	return 0
@@ -104,15 +113,9 @@ def main():
 	s1 = sentences[0]
 	print(s1)
 
-	# L = np.zeros((vocab_size, vocab_size))
-	# print(L)
+	L = np.ones((vocab_size, vocab_size))
+	print(L)
 
-	# L[0, 0] = 1
-	# L[0, 3] = 1
-	# L[3, 5] = 1
-	# L[5, 6] = 1
-	# L[3, 8] = 1
-	# matrixToTree(L)
 
 
 
@@ -120,4 +123,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
 
