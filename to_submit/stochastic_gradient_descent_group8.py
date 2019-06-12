@@ -200,11 +200,13 @@ def main():
     # print("Sentences : ")
     # print(sentences)
 
-    data = open('financenews.txt')
-    print(data)
+    f = codecs.open('financenews.txt', encoding='UTF8')
+    data = f.read()
+    #print(data)
     # Korean corpus
     #data = kolaw.open('constitution.txt').read()
     sentences = pre_process(data)
+    sentences = sentences[0:40]
     # gensim
     # corpus = api.load('text8')
     # data = " ".join(list(corpus)[0])
@@ -241,7 +243,6 @@ def main():
 
     for i in range(len(U)):
             pyplot.annotate(int2word[i], xy=(result[i, 0], result[i, 1]), fontproperties = prop)
-    pyplot.xlabel(u'언녕', fontproperties = prop)
     pyplot.show()
 
 if __name__ == '__main__':
