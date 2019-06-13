@@ -123,11 +123,11 @@ def NivreParser(sentence):
 
 	while (len(I) != 0):
 		I.pop()
-		
+
 	return 0
 
 def main():
-	data = "My name is Kevin from South Korea."
+	data = "My name is Nivre from South Korea."
 	sentences = pre_process(data)
 	print(sentences, end = "\n\n")
 
