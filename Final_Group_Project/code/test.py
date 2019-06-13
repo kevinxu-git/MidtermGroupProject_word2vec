@@ -36,12 +36,18 @@ print(joe)
 
 BAD_CHARS = [',', '<', '>', '!', '?', '-','<', ':',';','*','(',')','[',']','`','\'','"','는 ','은 ','과 ','이 ','그','저','가 ','을 ','를 ','에 ','와','나','로','의 ','도 ','께']
 
+# Help function for pre_process()
 def has_digit(word):
     for char in word:
         if char.isdigit():
             return True
     return False
 
+'''
+Input: textfile in form of string
+Output: List of list of words [[sentence1], [sentence2],...]
+Side-effect: Removes some unwanted characters and words with numbers.
+'''
 def pre_process(text):
     filtered = ""
     for char in text:
@@ -61,6 +67,10 @@ def pre_process(text):
                 sentence.append(word)
     return sentences
 
+'''
+Input: List of sentences
+Output: Look-up tables for converting a word to int and vice versa.
+'''
 def create_dictionary(list_of_sentences):
     words = []
     for sentence in list_of_sentences:
@@ -75,6 +85,8 @@ def create_dictionary(list_of_sentences):
         int2word[i] = word
 
     return int2word, word2int
+
+
 
 # Functions for arc-earger parsing algorithm : leftArc, rightArc, reduce, shift
 def leftArc(S, I, A, j):
@@ -98,11 +110,24 @@ def shift(S, I, A):
 	return 0
 # parameter A not used
 
-def NivreParser(S, I, A):
+'''
+Input: A sentence
+Output: The dependency parser of the sentence as a parsing tree 
+'''
+def NivreParser(sentence):
+	# Initialisation of the parser configuration
+	n = len(sentence)
+	S = [0] # root
+	I = [k for k in range(1, n)]
+	A = [] # arcs
+
+	while (len(I) != 0):
+		I.pop()
+		
 	return 0
 
 def main():
-	data = "My name is Kevin. And I am in South Korea."
+	data = "My name is Kevin from South Korea."
 	sentences = pre_process(data)
 	print(sentences, end = "\n\n")
 
@@ -118,6 +143,8 @@ def main():
 	L = np.ones((vocab_size, vocab_size))
 	print(L)
 
+	# Nivre Parser
+	NivreParser(s1)
 
 
 
