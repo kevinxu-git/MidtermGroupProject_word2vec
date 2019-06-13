@@ -120,7 +120,7 @@ def NivreParser(sentence):
     sentence.reverse() # to transform into a stack
     # print(sentence)
     n = len(sentence)
-    S = [-1] # We start with root on the stack
+    S = [0] # We start with root on the stack
     I = [k for k in range(n)]
     A = [] # arcs
 
@@ -131,27 +131,47 @@ def NivreParser(sentence):
         topStack = S[len(S)-1]
         topBuffer = I[len(I)-1]
         noAction = True
+        # for i in range(len(A)):
+        #     # if A[i][0] == topBuffer and A[i][1] == topStack:
+        #         leftArc(S, I, A)
+        #         noAction = False
+        #         break
+        #     elif A[i][0] == topStack and A[i][1] == topBuffer:
+        #         hasChildren = False
+        #         for j in range(len(A)):
+        #             if A[j][0] == topBuffer:
+        #                 hasChildren = True
+        #         if hasChildren == True:
+        #             rightArc(S, i, A)
+        #             noAction = False
+        #         break
+        #     elif A[i][1] == topStack:
+        #         reduce(S)
+        #         noAction 
+
+        hasParent = False
         for i in range(len(A)):
-            if A[i][0] == topBuffer and A[i][1] == topStack:
-                leftArc(S, I, A)
-                noAction = False
+            if A[i][1] == topStack:
+                hasParent = True
                 break
-            elif A[i][0] == topStack and A[i][1] == topBuffer:
-                hasChildren = False
-                for j in range(len(A)):
-                    if A[j][0] == topBuffer:
-                        hasChildren = True
-                if hasChildren == True:
-                    rightArc(S, i, A)
-                    noAction = False
-                break
-            elif A[i][1] == topStack:
-                reduce(S)
-                noAction = False
-                break
+        if hasParent == False:
+            leftArc(S, I, A)
+            noAction = False
+
         if noAction == True:
-            shift(S, I)
-        print(I)
+            hasParent = False
+            for i in range(len(A)):
+                if A[i][1] == topBuffer:
+                    hasParent = True
+                    break
+            if hasParent == False:
+                rightArc(S, I, A)
+                noAction = False
+
+        if hasParent == True:
+            reduce(S)
+
+        shift(S, I)
 
     return A
 
