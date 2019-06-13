@@ -2,6 +2,8 @@
 # Yonsei University
 # Groupe 8
 
+# 2019.06.18 3 p.m. Science Building 225
+
 import matplotlib.pyplot as pyplot
 import random as r
 import numpy as np
@@ -75,13 +77,13 @@ def create_dictionary(list_of_sentences):
     return int2word, word2int
 
 # Functions for arc-earger parsing algorithm : leftArc, rightArc, reduce, shift
-def leftArc(S,I,A,j):
+def leftArc(S, I, A, j):
 	A.append([j,len(S)]) # add the arc (j,i) to A 
 	S.pop()              # and pop the stack
 	return 0
-	# the parameter I is not used in leftArc it seems
+# the parameter I is not used in leftArc it seems
   
-def rightArc(S,I,A,j):
+def rightArc(S, I, A, j):
 	A.append([len(S),j])
 	S.append(I.remove(j)) # what's really to be removed from I to put onto the top of the stack S ? 
 	return 0              # probably not j depending on how we code
@@ -90,11 +92,11 @@ def reduce(S):
 	S.pop()              # pop the stack --> only delete a word ??
 	return 0
 
-def shift(S,I,A):
+def shift(S, I, A):
 	smth = remove(I[0])  # is I[0] the right 'next input token' to be removed ?
 	S.append(smth)
 	return 0
-	# parameter A not used
+# parameter A not used
 
 def NivreParser(S, I, A):
 	return 0
