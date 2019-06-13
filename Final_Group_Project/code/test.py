@@ -19,15 +19,17 @@ jet = Node("Jedazdazt", parent=dan)
 jan = Node("Jadddn", parent=dan)
 joe = Node("Jdazdzaoe", parent=dan)
 
-print(marc)
+L = [udo, marc]
+print(L)
+# print(marc)
 # Node('/Udo')
-print(joe)
+# print(joe)
 # Node('/Udo/Dan/Joe')
 
-# for pre, fill, node in RenderTree(udo):	
-# 	print("%s%s" % (pre, node.name))
+# for pre, fill, node in RenderTree(udo):   
+#   print("%s%s" % (pre, node.name))
 
-# from anytree.exporter import DotExporter
+from anytree.exporter import DotExporter
 # # graphviz needs to be installed for the next line!
 # DotExporter(udo).to_picture("udo.png")
 
@@ -89,65 +91,76 @@ def create_dictionary(list_of_sentences):
 
 
 # Functions for arc-earger parsing algorithm : leftArc, rightArc, reduce, shift
-def leftArc(S, I, A, j):
-	A.append([j,len(S)]) # add the arc (j,i) to A 
-	S.pop()              # and pop the stack
-	return 0
+def leftArc(S, I, A):
+    A.append([I[len(I)-1], S.pop()]) # add the arc (j,i) to A 
+    # S.pop() # and pop the stack
+    return 0
 # the parameter I is not used in leftArc it seems
   
-def rightArc(S, I, A, j):
-	A.append([len(S),j])
-	S.append(I.remove(j)) # what's really to be removed from I to put onto the top of the stack S ? 
-	return 0              # probably not j depending on how we code
+def rightArc(S, I, A):
+    A.append([S.pop(), I[len(I)-1]]) # Adds an arc from wi to wj from the token wi on top of the stack to the next input token wj
+    S.append(I[len(I)-1]) # Pushes wj onto S.
+    return 0              
   
 def reduce(S):
-	S.pop()              # pop the stack --> only delete a word ??
-	return 0
+    S.pop() 
+    return S
 
-def shift(S, I, A):
-	smth = remove(I[0])  # is I[0] the right 'next input token' to be removed ?
-	S.append(smth)
-	return 0
-# parameter A not used
+def shift(S, I):
+    # smth = remove(I[0])  
+    S.append(I.pop())
+    return S
 
 '''
 Input: A sentence
 Output: The dependency parser of the sentence as a parsing tree 
 '''
 def NivreParser(sentence):
-	# Initialisation of the parser configuration
-	n = len(sentence)
-	S = [0] # root
-	I = [k for k in range(1, n)]
-	A = [] # arcs
+    # Initialisation of the parser configuration
+    n = len(sentence)
+    S = [0] # root
+    I = [k for k in range(1, n)]
+    A = [] # arcs
 
-	while (len(I) != 0):
-		I.pop()
+    while (len(I) != 0):
+        rightArc(S, I, A)
+        shift(S, I)
 
-	return 0
+
+
+    return A
 
 def main():
-	data = "My name is Nivre from South Korea."
-	sentences = pre_process(data)
-	print(sentences, end = "\n\n")
+    data = "My name is Nivre from South Korea."
+    sentences = pre_process(data)
 
-	dictionary = create_dictionary(sentences)
-	int2word, word2int = dictionary
-	vocab_size = len(int2word)
-	print("Number of unique words = ", vocab_size, end = "\n")
-	print(dictionary, end = "\n\n")
+    print(sentences, end = "\n\n")
 
-	s1 = sentences[0]
-	print(s1)
+    dictionary = create_dictionary(sentences)
+    int2word, word2int = dictionary
+    vocab_size = len(int2word)
+    print("Number of unique words = ", vocab_size, end = "\n")
+    # print(dictionary, end = "\n\n")
 
-	L = np.ones((vocab_size, vocab_size))
-	print(L)
+    s1 = sentences[0]
+    print(s1)
 
-	# Nivre Parser
-	NivreParser(s1)
+    # Nivre Parser
+    parser = NivreParser(s1)
+    print(parser)
 
+    # Creation tree
+    tree = [Node(0)]
+    for i in range(1, len(s1)):
+        tree.append(Node(i, parent = tree[0]))
 
+    for i in range(len(parser)):
+        tree[parser[i][1]] = Node(parser[i][1], parent = tree[parser[i][0]]) 
 
+    for pre, fill, node in RenderTree(tree[0]):   
+        print("%s%s" % (pre, node.name))
+
+    DotExporter(tree[0]).to_picture("tree.png")
 
 
 if __name__ == '__main__':
