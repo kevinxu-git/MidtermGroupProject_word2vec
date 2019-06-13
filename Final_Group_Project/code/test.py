@@ -11,7 +11,7 @@ from math import *
 
 # Trees - print trees
 from anytree import Node, RenderTree
-udo = Node("Uddazdazo")
+udo = Node(2)
 marc = Node(1, parent=udo)
 lian = Node("Liadazdan", parent=marc)
 dan = Node("Dadazdazn", parent=udo)
@@ -117,16 +117,16 @@ Output: The dependency parser of the sentence as a parsing tree
 '''
 def NivreParser(sentence):
     # Initialisation of the parser configuration
+    sentence.reverse() # to transform into a stack
+    # print(sentence)
     n = len(sentence)
-    S = [0] # root
-    I = [k for k in range(1, n)]
+    S = [n-1] # root
+    I = [k for k in range(n-1)]
     A = [] # arcs
 
     while (len(I) != 0):
         rightArc(S, I, A)
         shift(S, I)
-
-
 
     return A
 
@@ -149,18 +149,19 @@ def main():
     parser = NivreParser(s1)
     print(parser)
 
-    # Creation tree
-    tree = [Node(0)]
-    for i in range(1, len(s1)):
-        tree.append(Node(i, parent = tree[0]))
+
+    # Creation tree -> to review
+    tree = []
+    for i in range(len(s1)):
+        tree.append(Node(s1[i]))
 
     for i in range(len(parser)):
-        tree[parser[i][1]] = Node(parser[i][1], parent = tree[parser[i][0]]) 
+        tree[parser[i][1]] = Node(s1[parser[i][1]], parent = tree[parser[i][0]]) 
+    print(tree)
 
-    for pre, fill, node in RenderTree(tree[0]):   
+    for pre, fill, node in RenderTree(tree[len(tree)-1]):   
         print("%s%s" % (pre, node.name))
-
-    DotExporter(tree[0]).to_picture("tree.png")
+    DotExporter(tree[len(tree)-1]).to_picture("tree.png")
 
 
 if __name__ == '__main__':
