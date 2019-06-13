@@ -98,7 +98,7 @@ def leftArc(S, I, A):
 # the parameter I is not used in leftArc it seems
   
 def rightArc(S, I, A):
-    A.append([S.pop(), I[len(I)-1]]) # Adds an arc from wi to wj from the token wi on top of the stack to the next input token wj
+    A.append([S[len(S)-1], I[len(I)-1]]) # Adds an arc from wi to wj from the token wi on top of the stack to the next input token wj
     S.append(I[len(I)-1]) # Pushes wj onto S.
     return 0              
   
@@ -120,13 +120,38 @@ def NivreParser(sentence):
     sentence.reverse() # to transform into a stack
     # print(sentence)
     n = len(sentence)
-    S = [n-1] # root
-    I = [k for k in range(n-1)]
+    S = [-1] # We start with root on the stack
+    I = [k for k in range(n)]
     A = [] # arcs
 
     while (len(I) != 0):
-        rightArc(S, I, A)
-        shift(S, I)
+        # if len(S) == 0:
+        #     shift(S, I)
+
+        topStack = S[len(S)-1]
+        topBuffer = I[len(I)-1]
+        noAction = True
+        for i in range(len(A)):
+            if A[i][0] == topBuffer and A[i][1] == topStack:
+                leftArc(S, I, A)
+                noAction = False
+                break
+            elif A[i][0] == topStack and A[i][1] == topBuffer:
+                hasChildren = False
+                for j in range(len(A)):
+                    if A[j][0] == topBuffer:
+                        hasChildren = True
+                if hasChildren == True:
+                    rightArc(S, i, A)
+                    noAction = False
+                break
+            elif A[i][1] == topStack:
+                reduce(S)
+                noAction = False
+                break
+        if noAction == True:
+            shift(S, I)
+        print(I)
 
     return A
 
@@ -157,10 +182,10 @@ def main():
 
     for i in range(len(parser)):
         tree[parser[i][1]] = Node(s1[parser[i][1]], parent = tree[parser[i][0]]) 
-    print(tree)
+    # print(tree)
 
-    for pre, fill, node in RenderTree(tree[len(tree)-1]):   
-        print("%s%s" % (pre, node.name))
+    # for pre, fill, node in RenderTree(tree[len(tree)-1]):   
+    #     print("%s%s" % (pre, node.name))
     DotExporter(tree[len(tree)-1]).to_picture("tree.png")
 
 
