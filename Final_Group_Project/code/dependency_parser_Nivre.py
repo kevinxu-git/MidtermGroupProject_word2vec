@@ -177,17 +177,21 @@ def NivreParser(sentence):
 
 def main():
     data = "My name is Nivre from South Korea."
-    sentences = pre_process(data)
+    data = "새 생명 ."
+    rules = "(NP (DP 새/MM) (NP 생명/NNG + ./SF))"
+    print(data.split())
 
-    print(sentences, end = "\n\n")
+    # sentences = pre_process(data)
 
-    dictionary = create_dictionary(sentences)
-    int2word, word2int = dictionary
-    vocab_size = len(int2word)
-    print("Number of unique words = ", vocab_size, end = "\n")
-    # print(dictionary, end = "\n\n")
+    # print(sentences, end = "\n\n")
 
-    s1 = sentences[0]
+    # dictionary = create_dictionary(sentences)
+    # int2word, word2int = dictionary
+    # vocab_size = len(int2word)
+    # print("Number of unique words = ", vocab_size, end = "\n")
+    # # print(dictionary, end = "\n\n")
+
+    s1 = data.split()
     print(s1)
 
     # Nivre Parser
