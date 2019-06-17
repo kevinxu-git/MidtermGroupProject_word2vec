@@ -3,7 +3,7 @@ import os
 from lxml import etree
 import codecs as c
 from io import StringIO, BytesIO
-from konlpy.tag import Hannanum
+from konlpy.tag import Kkma
 from konlpy.utils import pprint
 
 
@@ -41,22 +41,6 @@ def parse(body):
         if char == ';' and body[i+1] == ' ':
             sentence = ""
             sentence_add = True
-        # if char == '/':
-        #     next = body[i]
-        #     next_int = 0
-        #     tag = ""
-        #     while next != ' ' and next != '(' and next != ')':
-        #         tag = tag + next
-        #         next = body[i+next_int]
-        #         next_int += 1
-        #     next = body[i]
-        #     next_int = i
-        #     word = ""
-        #     while body[next_int] != ' ':
-        #         next_int -= 1
-        #     word = body[i-next_int:i]
-        #     dictionary.append((word, tag))
-
     #clear all with 'Q'
     new = []
     for i, s in enumerate(sentences):
@@ -65,24 +49,25 @@ def parse(body):
             new.append(s)
     return new
 
-def extract_sentences(data):
-    body = extract_body(data)
-    sentences = parse(body)
+def add_tags(sentences):
+    sentence_dict = []
+    kkma = Kkma()
+    for i, sent in enumerate(sentences):
+        sentence_dict.append((sent, kkma.pos(sent)))
+    return sentence_dict
 
-    kkma = Hannanum()
-    print(kkma.pos(sentences[1]))
-    # print(sentences)
 
 def main():
     #load lxml
     dir = os.getcwd()
     raw = c.open(dir + "/dataset/BGEO0292.txt", "rb", "utf-16")
     data = raw.read() # to be able to manipulate input
-    # print(data)
+    body = extract_body(data)
     #extract sentences
-    data = extract_sentences(data)
+    sentences = parse(body)
     #extract tags
-    #[sentences, [(word, tag)]
+    #sentence_dict = [sentence, [(word, tag)]
+    sentence_dict = add_tags(sentences)
 
 
 if __name__ == '__main__':
