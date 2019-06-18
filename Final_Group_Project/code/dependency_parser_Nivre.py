@@ -68,22 +68,21 @@ from anytree.exporter import DotExporter # graphviz needs to be installed for th
 
 # Functions for arc-earger parsing algorithm : leftArc, rightArc, reduce, shift
 def leftArc(S, I, A):
-    A.append([I[len(I)-1], S.pop()]) # add the arc (j,i) to A 
-    # S.pop() # and pop the stack
+    A.append([I[len(I)-1], S.pop()]) # Add the arc (j,i) to A 
+    # S.pop() # Pop the stack
     return 0
-# the parameter I is not used in leftArc it seems
   
 def rightArc(S, I, A):
-    A.append([S[len(S)-1], I[len(I)-1]]) # Adds an arc from wi to wj from the token wi on top of the stack to the next input token wj
-    S.append(I[len(I)-1]) # Pushes wj onto S.
+    A.append([S[len(S)-1], I[len(I)-1]]) # Add an arc from wi to wj from the token wi on top of the stack to the next input token wj
+    S.append(I[len(I)-1]) # Push wj onto S.
     return 0              
   
 def reduce(S):
-    S.pop() 
+    S.pop() # Pop the stack S
     return S
 
 def shift(S, I):
-    S.append(I.pop())
+    S.append(I.pop()) # Push the top token of the stack I on the stack S and pop the stack I
     return S
 
 '''
@@ -92,9 +91,8 @@ Output: The dependency parser of the sentence as a parsing tree
 '''
 def NivreParser(sentence):
     # Initialisation of the parser configuration
-    # print(sentence)
     n = len(sentence)
-    S = [0] # We start with root on the stack
+    S = [0] # Start with root on the stack
     I = [k for k in range(n)]
     A = [] # Arcs
 
@@ -143,15 +141,12 @@ def printTree(A, sentence):
 
     for i in range(len(A)):
         tree[A[i][1]+1] = Node(sentence[A[i][1]], parent = tree[A[i][0]+1]) 
-    # print(tree)
 
-    # for pre, fill, node in RenderTree(tree[len(tree)-1]):   
-    #     print("%s%s" % (pre, node.name))
     print(tree)
     DotExporter(tree[0]).to_picture("tree.png")
+    return 0
 
 def main():
-    data = "My name is Nivre from South Korea."
     data = "몇 시가 되었는지 경지는 모르고 있었다 ."
 
     # sentences = pre_process(data)
@@ -170,13 +165,9 @@ def main():
     # Nivre Parser
     parser = NivreParser(s1)
     parser = [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6]]
-
     print(parser)
 
     printTree(parser, s1)
-
-    
-
 
 if __name__ == '__main__':
     main()
