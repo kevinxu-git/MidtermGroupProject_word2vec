@@ -4,8 +4,6 @@
 # Yonsei University
 # Groupe 8
 
-# 2019.06.18 3 p.m. Science Building 225
-
 import matplotlib.pyplot as pyplot
 import random as r
 import numpy as np
@@ -139,7 +137,6 @@ Input: A the arcs in the tree and the sentence
 Output: Generate a PNG file of the tree
 '''
 def printTree(A, sentence):
-    # Creation tree -> to review
     print(sentence)
     tree = [Node("root")]
     for i in range(len(sentence)):
@@ -149,7 +146,7 @@ def printTree(A, sentence):
     for i in range(len(A)):
         tree[A[i][1]+1] = Node(sentence[A[i][1]], parent = tree[A[i][0]+1])
 
-    print(tree)
+    # print(tree)
     DotExporter(tree[0]).to_picture("tree.png")
     return 0
 
