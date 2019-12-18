@@ -1,1 +1,1 @@
-# MidtermGroupProject_word2vec - word2vec
+# MidtermGroupProject - word2vec
