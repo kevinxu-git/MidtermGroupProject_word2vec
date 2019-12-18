@@ -1,0 +1,5 @@
+'NNG', 'JKS', 'MAG', 'XR', 'VV', 'ETD', 'NNB', 'VA', 'VCP', 'EPT', 'EFN', 'SF', 'MDT', 'ECS', 'JX', 'ECE', 'VXV',
+NP', 'XSV', 'ECD', 'VX', 'JKM', 'XSN', 'JKG', 'ETN', 'JKO', 'JC', 'XSA', 'NNP', 'JKC', 'VCN', 'SP', 'SS', 'NR', 'NNM',
+ 'MDN', 'MAC', 'EFQ', 'UN', 'JKQ', 'XPN', 'IC', 'SW', 'EPH', 'OL', 'VXA', 'EFI', 'JKI', 'EFA', 'EFO', 'OH']
+
+52

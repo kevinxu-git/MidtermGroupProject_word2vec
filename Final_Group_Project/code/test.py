@@ -26,7 +26,7 @@ print(L)
 # print(joe)
 # Node('/Udo/Dan/Joe')
 
-# for pre, fill, node in RenderTree(udo):   
+# for pre, fill, node in RenderTree(udo):
 #   print("%s%s" % (pre, node.name))
 
 from anytree.exporter import DotExporter
@@ -92,28 +92,28 @@ def create_dictionary(list_of_sentences):
 
 # Functions for arc-earger parsing algorithm : leftArc, rightArc, reduce, shift
 def leftArc(S, I, A):
-    A.append([I[len(I)-1], S.pop()]) # add the arc (j,i) to A 
+    A.append([I[len(I)-1], S.pop()]) # add the arc (j,i) to A
     # S.pop() # and pop the stack
     return 0
 # the parameter I is not used in leftArc it seems
-  
+
 def rightArc(S, I, A):
     A.append([S[len(S)-1], I[len(I)-1]]) # Adds an arc from wi to wj from the token wi on top of the stack to the next input token wj
     S.append(I[len(I)-1]) # Pushes wj onto S.
-    return 0              
-  
+    return 0
+
 def reduce(S):
-    S.pop() 
+    S.pop()
     return S
 
 def shift(S, I):
-    # smth = remove(I[0])  
+    # smth = remove(I[0])
     S.append(I.pop())
     return S
 
 '''
 Input: A sentence
-Output: The dependency parser of the sentence as a parsing tree 
+Output: The dependency parser of the sentence as a parsing tree
 '''
 def NivreParser(sentence):
     # Initialisation of the parser configuration
@@ -147,7 +147,7 @@ def NivreParser(sentence):
         #         break
         #     elif A[i][1] == topStack:
         #         reduce(S)
-        #         noAction 
+        #         noAction
 
         hasParent = False
         for i in range(len(A)):
@@ -201,15 +201,13 @@ def main():
         tree.append(Node(s1[i]))
 
     for i in range(len(parser)):
-        tree[parser[i][1]] = Node(s1[parser[i][1]], parent = tree[parser[i][0]]) 
+        tree[parser[i][1]] = Node(s1[parser[i][1]], parent = tree[parser[i][0]])
     # print(tree)
 
-    # for pre, fill, node in RenderTree(tree[len(tree)-1]):   
+    # for pre, fill, node in RenderTree(tree[len(tree)-1]):
     #     print("%s%s" % (pre, node.name))
     DotExporter(tree[len(tree)-1]).to_picture("tree.png")
 
 
 if __name__ == '__main__':
     main()
-
-
