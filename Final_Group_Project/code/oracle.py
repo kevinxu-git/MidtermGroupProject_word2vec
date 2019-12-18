@@ -75,3 +75,6 @@ def main():
     saver = tf.train.Saver()
     save_path = saver.save(sess, SAVE_PATH + "/tmp/oracle.ckpt")
     print("Model saved in path: %s" % save_path)
+
+if __name__ == '__main__':
+    main()
