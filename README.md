@@ -6,6 +6,6 @@
 # Authors
 
 + **Kevin XU** - *Exchange student at Yonsei* - [wenkai88](https://github.com/wenkai88)
-+ **Clément Veyssière** - *Exchange student at Yonsei* - [clementveyssiere](https://github.com/clementveyssiere)
++ **Clément VEYSSIÈRE** - *Exchange student at Yonsei* - [clementveyssiere](https://github.com/clementveyssiere)
 + **Eric WANG** - *Exchange student at Yonsei* - [Ericowang](https://github.com/Ericowang)
 + **Anton EKLUND** - *Exchange student at Yonsei* - [antoneklund](https://github.com/antoneklund)
