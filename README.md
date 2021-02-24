@@ -1,5 +1,6 @@
 # NLP Projects
-> Yonsei University - Spring Semester March - June 2019
+> Spring Semester March-June 2019, Yonsei University, Seoul, South Korea
+
 + Projects realized during the course of Deep Learning (NLP) at Yonsei University
 
 # word2vec on Korean corpus
