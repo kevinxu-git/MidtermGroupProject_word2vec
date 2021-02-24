@@ -1,6 +1,6 @@
 # NLP Projects
+> Yonsei University - Spring Semester March - June 2019
 + Projects realized during the course of Deep Learning (NLP) at Yonsei University
-+ Spring Semester 2019
 
 # word2vec on Korean corpus
 + Implementation of word2vec skip-gram from scratch
